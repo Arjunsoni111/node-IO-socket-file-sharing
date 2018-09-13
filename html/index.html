@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Transfer Files With Socket.IO and Node.js</title>
+  <script src="js/jquery-1.7.1.min.js"></script>
+  <script src="http://arjunsoniserver.com:5001/socket.io/socket.io.js"></script>
+  <script src="js/delivery.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.downloadLink').hide();
+      $('.success').hide();
+      $('.error').hide();
+    });
+
+  </script>
+  <style>
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapper">
+    <h1>Select a File to Upload!</h1>
+    <form>
+      <input type="file" id="uploadFile">
+      <input type="submit" id="submit" value="Upload File">
+    </form>
+    <div id="outcome"></div>
+    <p class="success"></p>
+    <p class="error"></p>
+  </div>
+  <a class="downloadLink" href="" target="_blank">Download file</a>
+</body>
+
+</html>
