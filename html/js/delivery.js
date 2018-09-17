@@ -153,6 +153,7 @@
   Delivery.prototype.connect = function(){
     var _this = this;
     this.socket.on('delivery.connect',function(){
+      console.log("delivery.connect");
       _this.connected = true;
       pubSub.publish('delivery.connect', _this);
     });

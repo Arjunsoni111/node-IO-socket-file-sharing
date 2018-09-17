@@ -1,4 +1,6 @@
-var io = require('socket.io').listen(5001),
+var http = require('http'),
+  express = require('express'),
+  socketio = require('socket.io'),
   dl = require('./lib/delivery.server'),
   nano = require('./lib/nanp-script'),
   path = require('path'),
@@ -6,6 +8,11 @@ var io = require('socket.io').listen(5001),
   config = require('./config'),
   constant = require('./constant'),
   fs = require('fs');
+
+var router = express();
+var server = http.createServer(router);
+var io = socketio.listen(server);
+router.use(express.static(path.resolve(__dirname, 'html')));
 
 io.sockets.on('connection', function (socket) {
   delivery = dl.listen(socket);
@@ -16,6 +23,8 @@ io.sockets.on('connection', function (socket) {
     var filename = number + "_" + dateTime + ".xlsx";
     filepath = filepath + filename;
     fs.writeFile(filepath, file.buffer, function (err) {
+      console.log("err");
+      console.log(err);
       if (err) {
         delivery.sendMsg({ success: false, message: constant.ERROR_SAVE_FILE });
       } else {
@@ -65,6 +74,8 @@ io.sockets.on('connection', function (socket) {
                 });
                 
               }, function (err) {
+                console.log('err');
+                console.log(err);
                 delivery.sendMsg({ success: false, message: constant.ERROR_READ_FILE });
               })
             } else {
@@ -74,4 +85,9 @@ io.sockets.on('connection', function (socket) {
       }
     });
   });
+});
+
+server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
+  var addr = server.address();
+  console.log("Chat server listening at", addr.address + ":" + addr.port);
 });

@@ -1,9 +1,8 @@
 $(function () {
-  var socket = io.connect('http://arjunsoniserver.com:5001');
+  var socket = io.connect();
 
   socket.on('connect', function () {
     var delivery = new Delivery(socket);
-
     delivery.on('delivery.connect', function (delivery) {
       
       $("#submit").click(function (evt) {
@@ -52,5 +51,6 @@ $(function () {
         $('.downloadLink').attr('href', data);
       });
     });
+    
   });
 });
